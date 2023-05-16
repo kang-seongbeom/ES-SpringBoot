@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  es:
+    build:
+      context: .
+      args:
+        EKL_VERSION: 7.10.2
+    environment:
+      - node.name=single-node
+      - cluster.name=ksb_es_cluster
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - es-bridge
+
+networks:
+  es-bridge:
+    driver: bridge
