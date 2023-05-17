@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,15 +20,6 @@ public class UserService {
 
     private final UserSearchRepository repository;
 
-    public List<ResponseUserDto> findByName(String name){
-        List<ResponseUserDto> users = repository.findByName(name)
-                .stream()
-                .map(ResponseUserDto::of)
-                .collect(Collectors.toList());
-
-        return users;
-    }
-
     public void saveAll(List<RequestUserSaveDto> info) {
         List<UserDocument> users = info.stream()
                 .map(UserDocument::of)
@@ -34,4 +27,23 @@ public class UserService {
 
         repository.saveAll(users);
     }
+
+    public List<ResponseUserDto> findByName(String name) {
+        return transInfo(repository.findByName(name));
+    }
+
+    public List<ResponseUserDto> findByKorean(String korean) {
+        return transInfo(repository.findByKorean(korean));
+    }
+
+    public List<ResponseUserDto> findByEnglish(String english) {
+        return transInfo(repository.findByEnglish(english));
+    }
+
+    private List<ResponseUserDto> transInfo(List<UserDocument> users) {
+        return users.stream()
+                .map(ResponseUserDto::of)
+                .collect(Collectors.toList());
+    }
+
 }

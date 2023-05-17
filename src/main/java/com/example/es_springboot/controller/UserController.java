@@ -27,4 +27,14 @@ public class UserController {
     ResponseEntity<List<ResponseUserDto>> searchByName(@RequestParam String name){
         return ResponseEntity.ok(service.findByName(name));
     }
+
+    @GetMapping("/korean")
+    ResponseEntity<List<ResponseUserDto>> searchKoren(@RequestParam String korean){
+        return ResponseEntity.ok(service.findByKorean(korean));
+    }
+
+    @GetMapping("/english")
+    ResponseEntity<List<ResponseUserDto>> searchEnglish(@RequestParam String english){
+        return ResponseEntity.ok(service.findByEnglish(english));
+    }
 }

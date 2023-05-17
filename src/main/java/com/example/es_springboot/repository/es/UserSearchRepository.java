@@ -8,5 +8,9 @@ import java.util.List;
 public interface UserSearchRepository extends ElasticsearchRepository<UserDocument, Long> {
 
     List<UserDocument> findByName(String name);
+
+    List<UserDocument> findByKorean(String korean);
+
+    List<UserDocument> findByEnglish(String english);
 }
 

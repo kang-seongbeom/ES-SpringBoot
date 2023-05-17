@@ -17,13 +17,9 @@ import java.time.LocalDateTime;
 @Mapping(mappingPath = "elastic/es-mapping.json")
 public class UserDocument {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private Long age;
-
     private String korean;
     private String english;
 
