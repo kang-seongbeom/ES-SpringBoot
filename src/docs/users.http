@@ -5,4 +5,4 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/name?name=홍길동1
+GET http://localhost:8080/name?name=케이

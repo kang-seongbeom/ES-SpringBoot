@@ -4,13 +4,18 @@
       "type": "keyword"
     },
     "name": {
-      "type": "text"
+      "type": "keyword"
     },
     "age": {
       "type": "long"
     },
-    "description": {
-      "type": "text"
+    "korean": {
+      "type": "text",
+      "analyzer": "ksb_custom_korean_analyzer"
+    },
+    "english": {
+      "type": "text",
+      "search_analyzer": "ksb_custom_english_analyzer"
     },
     "created": {
       "type": "date",
