@@ -1,0 +1,57 @@
+{
+  "analysis": {
+    "analyzer": {
+      "ksb_custom_korean_analyzer": {
+        "type": "custom",
+        "tokenizer": "ksb_custom_korean_tokenizer",
+        "filter": [
+          "ksb_custom_ngram_filter",
+          "ksb_custom_korean_stop_filter"
+        ]
+      },
+      "ksb_custom_english_analyzer": {
+        "type": "custom",
+        "tokenizer": "whitespace",
+        "filter": [
+          "lowercase",
+          "snowball",
+          "ksb_custom_english_stop_filter",
+          "ksb_custom_english_synonym_filter",
+          "unique"
+        ]
+      }
+    },
+    "tokenizer": {
+      "ksb_custom_korean_tokenizer": {
+        "type": "nori_tokenizer",
+        "decompound_mode": "mixed"
+      }
+    },
+    "filter":{
+      "ksb_custom_ngram_filter": {
+        "type": "ngram",
+        "min_gram": 2,
+        "max_gram": 5
+      },
+      "ksb_custom_korean_stop_filter": {
+        "type": "nori_part_of_speech",
+        "stoptags" : [
+          "E", "IC", "J", "MAG", "MAJ",
+          "MM", "SP", "SSC", "SSO", "SC",
+          "SE", "XPN", "XSA", "XSN", "XSV",
+          "UNA", "NA", "VSV"
+        ]
+      },
+      "ksb_custom_english_stop_filter": {
+        "type": "stop",
+        "stopwords_path": "./stop/english.txt"
+      },
+      "ksb_custom_english_synonym_filter": {
+        "type": "sysnonym",
+        "synonym_path": "./synonym/english.txt",
+        "updateable": true
+      }
+    }
+  },
+  "max_ngram_diff" : "10"
+}

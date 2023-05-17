@@ -1,0 +1,20 @@
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    },
+    "name": {
+      "type": "text"
+    },
+    "age": {
+      "type": "long"
+    },
+    "description": {
+      "type": "text"
+    },
+    "created": {
+      "type": "date",
+      "format": "uuuu-MM-dd'T'HH:mm:ss"
+    }
+  }
+}

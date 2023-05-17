@@ -1,0 +1,8 @@
+POST http://localhost:8080/save/users
+Content-Type: application/json
+
+< ./users.json
+
+###
+
+GET http://localhost:8080/name?name=홍길동1
