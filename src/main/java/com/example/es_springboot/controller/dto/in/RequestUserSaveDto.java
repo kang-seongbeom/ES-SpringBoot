@@ -6,6 +6,7 @@ import lombok.*;
 
 @AllArgsConstructor
 @Getter
+@Builder
 public class RequestUserSaveDto {
 
     private final Long id;
