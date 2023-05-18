@@ -1,16 +1,16 @@
 package com.example.es_springboot.service;
 
+import com.example.es_springboot.controller.dto.in.RequestSearchConditionDto;
 import com.example.es_springboot.controller.dto.out.ResponseUserDto;
 import com.example.es_springboot.domain.es.UserDocument;
 import com.example.es_springboot.controller.dto.in.RequestUserSaveDto;
+import com.example.es_springboot.repository.es.UserSearchQueryRepository;
 import com.example.es_springboot.repository.es.UserSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserSearchRepository repository;
+    private final UserSearchQueryRepository queryRepository;
 
     public void saveAll(List<RequestUserSaveDto> info) {
         List<UserDocument> users = info.stream()
@@ -38,6 +39,10 @@ public class UserService {
 
     public List<ResponseUserDto> findByEnglish(String english) {
         return transInfo(repository.findByEnglish(english));
+    }
+
+    public List<ResponseUserDto> findByCondition(RequestSearchConditionDto dto){
+        return transInfo(queryRepository.findByCondition(dto));
     }
 
     private List<ResponseUserDto> transInfo(List<UserDocument> users) {

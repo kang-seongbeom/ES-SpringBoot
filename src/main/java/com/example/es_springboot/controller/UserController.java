@@ -1,5 +1,6 @@
 package com.example.es_springboot.controller;
 
+import com.example.es_springboot.controller.dto.in.RequestSearchConditionDto;
 import com.example.es_springboot.controller.dto.in.RequestUserSaveDto;
 import com.example.es_springboot.controller.dto.out.ResponseUserDto;
 import com.example.es_springboot.domain.es.UserDocument;
@@ -36,5 +37,10 @@ public class UserController {
     @GetMapping("/english")
     ResponseEntity<List<ResponseUserDto>> searchEnglish(@RequestParam String english){
         return ResponseEntity.ok(service.findByEnglish(english));
+    }
+
+    @PostMapping("/condition")
+    ResponseEntity<List<ResponseUserDto>> searchCondition(@RequestBody RequestSearchConditionDto dto){
+        return ResponseEntity.ok(service.findByCondition(dto));
     }
 }

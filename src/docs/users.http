@@ -14,3 +14,10 @@ GET http://localhost:8080/korean?korean=사과
 ###
 
 GET http://localhost:8080/english?english=hi
+
+###
+
+POST http://localhost:8080/condition
+Content-Type: application/json
+
+< ./condition.json
