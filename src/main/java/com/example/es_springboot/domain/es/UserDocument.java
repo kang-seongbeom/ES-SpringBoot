@@ -1,10 +1,9 @@
 package com.example.es_springboot.domain.es;
 
-import com.example.es_springboot.controller.dto.in.RequestUserSaveDto;
+import com.example.es_springboot.controller.dto.port_in.RequestUserSaveDto;
 import lombok.*;
 import org.springframework.data.elasticsearch.annotations.*;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 

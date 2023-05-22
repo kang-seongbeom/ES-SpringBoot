@@ -15,6 +15,17 @@ services:
     networks:
       - es-bridge
 
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.2
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://es:9200
+      ELASTICSEARCH_HOSTS: http://es:9200
+    networks:
+      - es-bridge
+
 networks:
   es-bridge:
     driver: bridge

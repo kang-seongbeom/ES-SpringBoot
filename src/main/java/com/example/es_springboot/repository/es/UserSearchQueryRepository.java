@@ -1,6 +1,6 @@
 package com.example.es_springboot.repository.es;
 
-import com.example.es_springboot.controller.dto.in.RequestSearchConditionDto;
+import com.example.es_springboot.controller.dto.port_in.RequestSearchConditionDto;
 import com.example.es_springboot.domain.es.UserDocument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;

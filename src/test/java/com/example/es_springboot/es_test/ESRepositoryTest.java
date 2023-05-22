@@ -1,7 +1,7 @@
 package com.example.es_springboot.es_test;
 
 import com.example.es_springboot.config.ElasticTest;
-import com.example.es_springboot.controller.dto.in.RequestUserSaveDto;
+import com.example.es_springboot.controller.dto.port_in.RequestUserSaveDto;
 import com.example.es_springboot.domain.es.UserDocument;
 import com.example.es_springboot.repository.es.UserSearchRepository;
 import org.junit.jupiter.api.Test;

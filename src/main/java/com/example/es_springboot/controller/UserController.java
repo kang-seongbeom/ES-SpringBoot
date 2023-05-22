@@ -1,9 +1,8 @@
 package com.example.es_springboot.controller;
 
-import com.example.es_springboot.controller.dto.in.RequestSearchConditionDto;
-import com.example.es_springboot.controller.dto.in.RequestUserSaveDto;
-import com.example.es_springboot.controller.dto.out.ResponseUserDto;
-import com.example.es_springboot.domain.es.UserDocument;
+import com.example.es_springboot.controller.dto.port_in.RequestSearchConditionDto;
+import com.example.es_springboot.controller.dto.port_in.RequestUserSaveDto;
+import com.example.es_springboot.controller.dto.port_out.ResponseUserDto;
 import com.example.es_springboot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.example.es_springboot.controller.dto.in;
+package com.example.es_springboot.controller.dto.port_in;
 
 
 import lombok.*;
