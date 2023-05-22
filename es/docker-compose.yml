@@ -2,9 +2,9 @@ version: '3.7'
 services:
   es:
     build:
-      context: .
+      context: elasticsearch/.
       args:
-        EKL_VERSION: 7.10.2
+        ELK_VERSION: 7.10.2
     environment:
       - node.name=single-node
       - cluster.name=ksb_es_cluster
@@ -16,7 +16,10 @@ services:
       - es-bridge
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.2
+    build:
+      context: kibana/.
+      args:
+        ELK_VERSION: 7.10.2
     container_name: kibana
     ports:
       - 5601:5601
