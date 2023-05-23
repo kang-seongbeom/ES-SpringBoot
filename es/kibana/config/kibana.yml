@@ -1,4 +1,4 @@
-server.name: ksb-kibana
+server.name: ksb_kibana
 server.host: 0.0.0.0
 elasticsearch.hosts: ["http://host.docker.internal:9200"]
 monitoring.ui.container.elasticsearch.enabled: true
