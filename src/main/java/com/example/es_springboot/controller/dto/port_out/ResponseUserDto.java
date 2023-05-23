@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.elasticsearch.core.Nullable;
 import org.springframework.util.StringUtils;
 
-@Builder
 public class ResponseUserDto {
 
     @Nullable

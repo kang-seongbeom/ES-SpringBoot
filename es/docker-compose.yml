@@ -1,17 +1,49 @@
 version: '3.7'
 services:
-  es:
+  elasticsearch:
     build:
       context: elasticsearch/.
       args:
         ELK_VERSION: 7.10.2
     environment:
       - node.name=single-node
-      - cluster.name=ksb_es_cluster
       - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - type: bind
+        source: ./elasticsearch/config/elasticsearch.yml
+        target: /usr/shar/elasticsearch/config/elasticsearch.yml
+        read_only: true
     ports:
       - 9200:9200
       - 9300:9300
+    networks:
+      - es-bridge
+
+  logstash:
+    build:
+      context: logstash/.
+      args:
+        ELK_VERSION: 7.10.2
+    volumes:
+      - type: bind
+        source: ./logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ./logstash/config/pipelines.yml
+        target: /usr/share/logstash/config/pipelines.yml
+        read_only: true
+      - type: bind
+        source: ./logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+    ports:
+      - 5044:5044
+      - 9600:9600
+      - 9900:9900
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
       - es-bridge
 
@@ -23,9 +55,11 @@ services:
     container_name: kibana
     ports:
       - 5601:5601
-    environment:
-      ELASTICSEARCH_URL: http://es:9200
-      ELASTICSEARCH_HOSTS: http://es:9200
+    volumes:
+      - type: bind
+        source: ./kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
     networks:
       - es-bridge
 
