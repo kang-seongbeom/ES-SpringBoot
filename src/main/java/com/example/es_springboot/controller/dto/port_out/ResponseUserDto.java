@@ -1,12 +1,11 @@
 package com.example.es_springboot.controller.dto.port_out;
 
 import com.example.es_springboot.domain.es.UserDocument;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.elasticsearch.core.Nullable;
 import org.springframework.util.StringUtils;
 
+@Data
 public class ResponseUserDto {
 
     @Nullable

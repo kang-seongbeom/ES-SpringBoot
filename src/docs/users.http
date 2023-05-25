@@ -17,7 +17,21 @@ GET http://localhost:8080/english?english=hi
 
 ###
 
-POST http://localhost:8080/condition
+POST http://localhost:8080/criteria/condition
 Content-Type: application/json
 
 < ./condition.json
+
+###
+
+POST http://localhost:8080/native/condition
+Content-Type: application/json
+
+< ./condition.json
+
+###
+
+POST http://localhost:8080/native/condition
+Content-Type: application/json
+
+< ./condition2.json

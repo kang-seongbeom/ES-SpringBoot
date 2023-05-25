@@ -4,7 +4,8 @@ import com.example.es_springboot.controller.dto.port_in.RequestSearchConditionDt
 import com.example.es_springboot.controller.dto.port_out.ResponseUserDto;
 import com.example.es_springboot.domain.es.UserDocument;
 import com.example.es_springboot.controller.dto.port_in.RequestUserSaveDto;
-import com.example.es_springboot.repository.es.UserSearchQueryRepository;
+import com.example.es_springboot.repository.es.UserSearchCriteriaQueryRepository;
+import com.example.es_springboot.repository.es.UserSearchNativeQueryRepository;
 import com.example.es_springboot.repository.es.UserSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,9 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserSearchRepository repository;
-    private final UserSearchQueryRepository queryRepository;
+    private final UserSearchCriteriaQueryRepository criteriaQueryRepository;
+    private final UserSearchNativeQueryRepository nativeQueryRepository;
+
 
     public void saveAll(List<RequestUserSaveDto> info) {
         List<UserDocument> users = info.stream()
@@ -41,8 +44,12 @@ public class UserService {
         return transInfo(repository.findByEnglish(english));
     }
 
-    public List<ResponseUserDto> findByCondition(RequestSearchConditionDto dto){
-        return transInfo(queryRepository.findByCondition(dto));
+    public List<ResponseUserDto> findByCriteriaCondition(RequestSearchConditionDto dto){
+        return transInfo(criteriaQueryRepository.findByCriteriaCondition(dto));
+    }
+
+    public List<ResponseUserDto> findByNativeCondition(RequestSearchConditionDto dto){
+        return transInfo(nativeQueryRepository.findByNativeCondition(dto));
     }
 
     private List<ResponseUserDto> transInfo(List<UserDocument> users) {

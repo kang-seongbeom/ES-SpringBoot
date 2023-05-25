@@ -38,8 +38,13 @@ public class UserController {
         return ResponseEntity.ok(service.findByEnglish(english));
     }
 
-    @PostMapping("/condition")
-    ResponseEntity<List<ResponseUserDto>> searchCondition(@RequestBody RequestSearchConditionDto dto){
-        return ResponseEntity.ok(service.findByCondition(dto));
+    @PostMapping("/criteria/condition")
+    ResponseEntity<List<ResponseUserDto>> searchCriteriaCondition(@RequestBody RequestSearchConditionDto dto){
+        return ResponseEntity.ok(service.findByCriteriaCondition(dto));
+    }
+
+    @PostMapping("/native/condition")
+    ResponseEntity<List<ResponseUserDto>> searchNativeCondition(@RequestBody RequestSearchConditionDto dto){
+        return ResponseEntity.ok(service.findByNativeCondition(dto));
     }
 }

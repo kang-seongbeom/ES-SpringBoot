@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class UserSearchQueryRepository {
+public class UserSearchCriteriaQueryRepository {
 
     private final ElasticsearchOperations operations;
 
-    public List<UserDocument> findByCondition(RequestSearchConditionDto dto) {
+    public List<UserDocument> findByCriteriaCondition(RequestSearchConditionDto dto) {
         CriteriaQuery query = createConditionCriteriaQuery(dto);
 
         SearchHits<UserDocument> search = operations.search(query, UserDocument.class);

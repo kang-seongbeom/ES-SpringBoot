@@ -8,6 +8,10 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+bootJar {
+    mainClass = "com.example.es_springboot.EsSpringBootApplication"
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
