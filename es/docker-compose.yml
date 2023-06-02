@@ -2,16 +2,16 @@ version: '3.7'
 services:
   elasticsearch:
     build:
-      context: elasticsearch/.
+      context: elasticsearch/. # elasticsearch 전용 Dockerfile을 가져와 빌드
       args:
         ELK_VERSION: 7.10.2
     environment:
       - node.name=single-node
       - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # 사용할 수 있는 힙의 크기를 제한
     volumes:
       - type: bind
-        source: ./elasticsearch/config/elasticsearch.yml
+        source: ./elasticsearch/config/elasticsearch.yml # 설정 yml파일을 가져와 바인드
         target: /usr/shar/elasticsearch/config/elasticsearch.yml
         read_only: true
     ports:
@@ -22,37 +22,37 @@ services:
 
   logstash:
     build:
-      context: logstash/.
+      context: logstash/. # logstash 전용 Dockerfile을 가져와 빌드
       args:
         ELK_VERSION: 7.10.2
     volumes:
       - type: bind
-        source: ./logstash/config/logstash.yml
+        source: ./logstash/config/logstash.yml # 설정 yml파일을 가져와 바인드
         target: /usr/share/logstash/config/logstash.yml
         read_only: true
       - type: bind
-        source: ./logstash/config/pipelines.yml
+        source: ./logstash/config/pipelines.yml # 커스텀 pipeline을 사용할 수 있게 함
         target: /usr/share/logstash/config/pipelines.yml
         read_only: true
       - type: bind
-        source: ./logstash/pipeline
+        source: ./logstash/pipeline # 커스텀 pipeline을 바인드
         target: /usr/share/logstash/pipeline
         read_only: true
       - type: bind
-        source: ./logstash/mysql-connector-j-8.0.33.jar
+        source: ./logstash/mysql-connector-j-8.0.33.jar # mysql을 연결할 수 있도록 커넥터 바인드
         target: /usr/share/logstash/logstash-core/lib/jars/mysql-connector-j-8.0.33.jar
     ports:
       - 5044:5044
       - 9600:9600
       - 9900:9900
     environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m" # 사용할 수 있는 힙의 크기를 제한
     networks:
       - es-bridge
 
   kibana:
     build:
-      context: kibana/.
+      context: kibana/. # kibana 전용 Dockerfile을 가져와 빌드
       args:
         ELK_VERSION: 7.10.2
     container_name: kibana
@@ -60,7 +60,7 @@ services:
       - 5601:5601
     volumes:
       - type: bind
-        source: ./kibana/config/kibana.yml
+        source: ./kibana/config/kibana.yml # 설정 yml파일을 가져와 바인드
         target: /usr/share/kibana/config/kibana.yml
         read_only: true
     networks:
