@@ -1,0 +1,104 @@
+# docker compose 버전
+version: "3"
+
+# compose로 한 번에 실행시킬 서비스들 정의
+services:
+  zoo1:
+    # 사용할 이미지
+    image: confluentinc/cp-zookeeper:7.3.0
+    # 호스트 이름
+    hostname: zoo1
+    # 컨테이너 이름
+    container_name: zoo1
+    # 접근 포트 (컨테이너 외부 : 컨테이너 내부)
+    ports:
+      - "2181:2181"
+    # 환경변수
+    environment:
+      # 컨테이너 내부에서 2181로 실행하도록 설정(Defalut)
+      ZOOKEEPER_CLIENT_PORT: 2181
+      # zookeeper을 식별할 아이디
+      # 단일 zookeeper을 사용할 것이기 때문에 의미있지는 않음
+      ZOOKEEPER_SERVER_ID: 1
+      # 2888은 zokeeper을 여러개(주키퍼 앙상블)일 때, 서로 통신을 하기 위한 설정
+      # 이 역시 단일 zookpper이기 때문에 의미 없음
+      # 3888은 마스터를 위한 포트
+      ZOOKEEPER_SERVERS: zoo1:2888:3888
+      # zookeeper가 클러스터를 구성할 때의 동기화 틱 시간 설정
+      ZOOKEEPER_TRICK_TIME: 2000
+      # 초기화 제한 시간
+      # 주키퍼 앙상블은 쿼럼을 통해 마스터를 설정함
+      # 이때, 나머지 주키퍼들이 마스터에 연결되는 최대 시간 설정
+      # 타임 아웃 시간은 ZOOKEEPER_TRICK_TIME*ZOOKEEPER_INIT_LIMIT = 2000*5 = 10,000(10초)가 됨
+      # 단일 zookeeper을 사용할 것이기 때문에 의미있지는 않음
+      ZOOKEEPER_INIT_LIMIT: 5
+      # 마스터와 나머지들의 싱크 제한 시간
+      # 시간 내에 싱크 응답이 오는 경우 클러스터가 정상적으로 구성되었다는 것을 알 수 있음
+      # 싱크 시간은 ZOOKEEPER_TRICK_TIME*ZOOKEEPER_SYNC_LIMIT = 2000*2 = 4000(4초)가 됨
+      ZOOKEEPER_SYNC_LIMIT: 2
+
+  kafka1:
+    image: confluentinc/cp-kafka:7.3.0
+    hostname: kafka1
+    container_name: kafka1
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      # 외부에서 접속하기 위한 리스너 설정
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka1:19092,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092,DOCKER://host.docker.internal:29092
+      # 보안을 위한 프로토콜 매핑. 이 값은 KAFKA_ADVERTISED_LISTENERS와 함께 key-value로 지정함
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
+      # docker 내부에서 사용할 리스너 이름
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      # kafka가 연결될 zookeeper 지정.
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+      # kafka 브로커 아이디. unique한 값이여야 함
+      KAFKA_BRODKER_ID: 1
+      # 로그 설정
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      # 요청 권한 부여. ACL(Access Control List) 접근 제어 목록
+      # KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+      # kafka 브로커가 접근 권한이 없어도 동작할 수 있도록 함
+      # KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+    # kafka broker가 의존하는 zookeeper 설정
+    depends_on:
+      - zoo1
+
+  kafka2:
+    image: confluentinc/cp-kafka:7.3.0
+    hostname: kafka2
+    container_name: kafka2
+    ports:
+      - "9093:9093"
+      - "29093:29093"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka2:19093,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9093,DOCKER://host.docker.internal:29093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+      KAFKA_BROKER_ID: 2
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      # KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+      # KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+    depends_on:
+      - zoo1
+
+  kafka3:
+    image: confluentinc/cp-kafka:7.3.0
+    hostname: kafka3
+    container_name: kafka3
+    ports:
+      - "9094:9094"
+      - "29094:29094"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka3:19094,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9094,DOCKER://host.docker.internal:29094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+      KAFKA_BROKER_ID: 3
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      # KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+      # KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+    depends_on:
+      - zoo1

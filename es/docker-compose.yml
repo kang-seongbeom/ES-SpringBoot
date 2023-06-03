@@ -12,7 +12,7 @@ services:
     volumes:
       - type: bind
         source: ./elasticsearch/config/elasticsearch.yml # 설정 yml파일을 가져와 바인드
-        target: /usr/shar/elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
         read_only: true
     ports:
       - 9200:9200
